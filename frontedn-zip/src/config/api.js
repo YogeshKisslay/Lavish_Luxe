@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 // const DEPLOYED='https://pear-poised-hen.cyclic.app/'
-const LOCALHOST='http://localhost:5454'
+const LOCALHOST=process.env.REACT_APP_NOT_SECRET_CODE
 
 export const API_BASE_URL = LOCALHOST;
 
