@@ -80,28 +80,34 @@
 // module.exports={createPaymentLink,updatePaymentInformation}
 
 // services/payment.service.js
+// services/payment.service.js
 const stripe = require('../config/stripeClient');
 const orderService = require("../services/order.service.js");
 
 const createPaymentLink = async (orderId) => {
   const order = await orderService.findOrderById(orderId);
 
-  // Add check for null
+  // Check if order exists
   if (!order) {
-      throw new Error(`Order with ID ${orderId} not found`);
+    throw new Error(`Order with ID ${orderId} not found`);
   }
 
+  // Create a payment intent
   const paymentIntent = await stripe.paymentIntents.create({
-      amount: order.totalPrice * 100, // Assuming 'totalPrice' is stored as a number
-      currency: 'INR',
-      metadata: { orderId: order._id.toString() },
-      automatic_payment_methods: {
-          enabled: true,
-      },
+    amount: order.totalPrice * 100, // Ensure totalPrice is in the correct format
+    currency: 'INR',
+    metadata: { orderId: order._id.toString() },
+    automatic_payment_methods: { enabled: true },
   });
 
-  return { clientSecret: paymentIntent.client_secret };
+  // Return both client_secret and paymentIntent ID
+  return { 
+    clientSecret: paymentIntent.client_secret, 
+    paymentIntentId: paymentIntent.id // Add this line to return the payment intent ID
+  };
 };
+
+
 const updatePaymentInformation = async (reqData) => {
   const paymentId = reqData.payment_id;
   const orderId = reqData.order_id;

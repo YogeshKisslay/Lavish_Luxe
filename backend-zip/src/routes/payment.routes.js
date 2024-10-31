@@ -10,7 +10,7 @@
 // module.exports=router;
 
 
-// routes/payment.routes.js
+// // routes/payment.routes.js
 const express = require('express');
 const router = express.Router();
 const { createPaymentLink, updatePaymentInformation } = require('../controllers/payment.controller.js');

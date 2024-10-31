@@ -1,27 +1,3 @@
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import Navigation from './customer/Components/Navbar/Navigation';
-import CustomerRoutes from './Routers/CustomerRoutes';
-import AdminRoutes from './Routers/AdminRoutes';
-import NotFound from './Pages/Notfound';
-import AdminPannel from './Admin/AdminPannel';
-// import Routers from './Routers/Routers';
-
-function App() {
-  const isAdmin=true;
-  return (
-    <div className="">
-      
-      <Routes>
-        <Route path="/*" element={<CustomerRoutes />} />
-        <Route path="/admin/*" element={<AdminPannel />} />
-        
-      </Routes>
-    </div>
-  );
-}
-
-export default App;
 // import { Route, Routes } from 'react-router-dom';
 // import './App.css';
 // import Navigation from './customer/Components/Navbar/Navigation';
@@ -29,23 +5,69 @@ export default App;
 // import AdminRoutes from './Routers/AdminRoutes';
 // import NotFound from './Pages/Notfound';
 // import AdminPannel from './Admin/AdminPannel';
-// import { StripeProvider } from './StripeContext'; // Adjust the path if necessary
+// // import Routers from './Routers/Routers';
 
 // function App() {
-//   const isAdmin = true; // You might want to dynamically set this based on your authentication logic
-
+//   const isAdmin=true;
 //   return (
-//     <StripeProvider>
-//       <div className="">
-//         {/* You can add your Navigation here if needed */}
-//         <Routes>
-//           <Route path="/*" element={<CustomerRoutes />} />
-//           <Route path="/admin/*" element={<AdminPannel />} />
-//           <Route path="*" element={<NotFound />} /> {/* Adding a NotFound route */}
-//         </Routes>
-//       </div>
-//     </StripeProvider>
+//     <div className="">
+      
+//       <Routes>
+//         <Route path="/*" element={<CustomerRoutes />} />
+//         <Route path="/admin/*" element={<AdminPannel />} />
+        
+//       </Routes>
+//     </div>
+//   );`
+// }
+
+// export default App;
+
+
+
+// import { Route, Routes } from 'react-router-dom';
+// import './App.css';
+// import CustomerRoutes from './Routers/CustomerRoutes';
+// import AdminPannel from './Admin/AdminPannel';
+// import PaymentSuccess from './customer/Components/paymentSuccess/PaymentSuccess';
+
+// function App() {
+//   return (
+//     <div className="">
+//       <Routes>
+//         <Route path="/*" element={<CustomerRoutes />} />
+//         <Route path="/admin/*" element={<AdminPannel />} />
+//         <Route path="/payment-success/:orderId" element={<PaymentSuccess />} />
+//       </Routes>
+//     </div>
 //   );
 // }
 
 // export default App;
+import { Route, Routes } from 'react-router-dom';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import './App.css';
+import CustomerRoutes from './Routers/CustomerRoutes';
+import AdminPannel from './Admin/AdminPannel';
+import PaymentSuccess from './customer/Components/paymentSuccess/PaymentSuccess';
+
+// Load your Stripe publishable key
+const stripePromise = loadStripe('pk_test_51Q8bJEKODdllGjjVKVazZJqDW6V36TckZTHsjZ0d4agCsQ9Rnh3OcDZufwNnjlBBw17Dvs2foLszEinuPjE4arMx00SmkCQuZz'); // Replace with your actual publishable key
+
+function App() {
+  return (
+    <div className="">
+      <Elements stripe={stripePromise}> 
+        <Routes>
+          <Route path="/*" element={<CustomerRoutes />} />
+          <Route path="/admin/*" element={<AdminPannel />} />
+          {/* <Route path="/payment-success/:orderId" element={<PaymentSuccess />} /> */}
+        </Routes>
+      </Elements>
+    </div>
+  );
+}
+
+export default App;
+

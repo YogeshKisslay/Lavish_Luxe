@@ -6,3 +6,5 @@ const connectDb=()=>{
 }
 
 module.exports={connectDb}
+
+// 152.58.75.172/32

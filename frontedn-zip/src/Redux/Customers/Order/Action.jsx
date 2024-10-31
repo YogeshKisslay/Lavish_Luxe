@@ -81,29 +81,48 @@ export const createOrder = (reqData) => async (dispatch) => {
 //   }
 // };
 
+// export const getOrderById = (orderId) => async (dispatch) => {
+//   console.log("get order req ", orderId);
+//   try {
+//     dispatch({ type: GET_ORDER_BY_ID_REQUEST });
+
+//     const { data } = await api.get(
+//       `/api/orders/${orderId}`,
+      
+//     );
+//     console.log("order by id ", data);
+//     dispatch({
+//       type: GET_ORDER_BY_ID_SUCCESS,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     console.log("catch ",error)
+//     dispatch({
+//       type: GET_ORDER_BY_ID_FAILURE,
+//       payload:
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message,
+//     });
+//   }
+// };
 export const getOrderById = (orderId) => async (dispatch) => {
   console.log("get order req ", orderId);
   try {
-    dispatch({ type: GET_ORDER_BY_ID_REQUEST });
+      dispatch({ type: GET_ORDER_BY_ID_REQUEST });
 
-    const { data } = await api.get(
-      `/api/orders/${orderId}`,
-      
-    );
-    console.log("order by id ", data);
-    dispatch({
-      type: GET_ORDER_BY_ID_SUCCESS,
-      payload: data,
-    });
+      const { data } = await api.get(`/api/orders/${orderId}`);
+      console.log("order by id ", data);
+      dispatch({
+          type: GET_ORDER_BY_ID_SUCCESS,
+          payload: data,
+      });
   } catch (error) {
-    console.log("catch ",error)
-    dispatch({
-      type: GET_ORDER_BY_ID_FAILURE,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
+      console.error("Error fetching order: ", error);  // Log error details for debugging
+      dispatch({
+          type: GET_ORDER_BY_ID_FAILURE,
+          payload: error.response ? error.response.data : { message: error.message },
+      });
   }
 };
 
